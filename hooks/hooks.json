@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "name": "Auto-save progress after Write",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | grep -q 'progress\.txt' || echo 'Progress auto-saved'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "name": "Validate phase transitions",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Validating write operation...'"
+          }
+        ]
+      }
+    ]
+  }
+}

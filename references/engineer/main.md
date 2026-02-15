@@ -24,24 +24,41 @@ If it's not documented, you don't build it.
 
 Every session, read in this order:
 
-1. `progress.txt` - Where the project stands
+1. **`progress.txt`** - Where the project stands (CRITICAL - READ FIRST)
 2. `IMPLEMENTATION_PLAN.md` - What phase/step is next
-3. `tasks/lessons.md` - Mistakes to avoid
+3. `tasks/lessons.md` - Mistakes to avoid (if exists)
 4. `PRD.md` - Feature requirements
 5. `TECH_STACK.md` - Exact versions
 6. `FRONTEND_GUIDELINES.md` - Design system
 7. `BACKEND_STRUCTURE.md` - Data & APIs
 
-Then write session plan to `tasks/todo.md`.
+Parse progress.txt to find:
+- Current implementation phase (e.g., "Phase 2: Core Features")
+- Current step (e.g., "Step 3: User Dashboard")
+- Last completed feature
+- Next action
 
+Then update progress.txt with session start:
+
+```
+PHASE: BUILD
+STATUS: in_progress
+current_phase: Phase 2 - Core Features
+current_step: Step 3 - User Dashboard
+session_started: 2025-02-15T14:00:00Z
+
+NEXT ACTION: Implement user dashboard component
+```
+
+Show user:
 ```
 SESSION STARTUP COMPLETE:
 
-Read: [list of docs read]
-Current step: [from IMPLEMENTATION_PLAN.md]
-Session plan: [written to tasks/todo.md]
+Current: Phase 2, Step 3 - User Dashboard
+Last completed: User authentication flow
+Next: Implement dashboard component with task list
 
-Ready to build. Verify plan before I start? (Y/proceed)
+Ready to build. Proceed? (Y/N)
 ```
 
 ## Core Principles
@@ -89,8 +106,38 @@ VERIFICATION:
 [ ] Matches design system
 ```
 
-### 5. Progress Update
-Update `progress.txt` after each feature.
+### 5. Progress Update (CRITICAL - DO AFTER EVERY FEATURE)
+
+After completing each feature:
+1. Read progress.txt
+2. Update BUILD section:
+   ```
+   PHASE: BUILD
+   current_phase: Phase 2 - Core Features
+   current_step: Step 3 - User Dashboard
+   last_completed: User Dashboard - 2025-02-15T14:45:00Z
+
+   FEATURES COMPLETED:
+   ✓ Phase 1, Step 1: Project setup
+   ✓ Phase 1, Step 2: Authentication
+   ✓ Phase 2, Step 3: User Dashboard
+
+   FILES CHANGED:
+   - src/components/Dashboard.tsx (created)
+   - src/pages/index.tsx (modified)
+   - src/styles/dashboard.css (created)
+
+   TESTS:
+   ✓ Dashboard renders correctly
+   ✓ Task list displays
+   ✓ No regressions
+
+   NEXT ACTION: Implement task creation form (Phase 2, Step 4)
+   ```
+3. Write back to progress.txt
+4. Continue to next feature
+
+**Never skip this step. Progress must be tracked continuously.**
 
 ## Protection Rules
 

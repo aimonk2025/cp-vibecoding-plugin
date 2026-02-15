@@ -1,0 +1,15 @@
+# Development tools (not needed for plugin distribution)
+skill-creator/
+
+# User project files that will be created during usage
+progress.txt
+tasks/
+docs/
+
+# OS and IDE files
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
