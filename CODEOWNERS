@@ -1,0 +1,21 @@
+# CODEOWNERS file for cp-vibe-coding plugin
+#
+# This file defines who owns and must review changes to specific parts of the codebase.
+# When a PR modifies files matching these patterns, the specified owners must approve.
+#
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+# This means all PRs require your approval
+* @aimonk2025
+
+# Critical plugin configuration files require extra scrutiny
+/.claude-plugin/ @aimonk2025
+/marketplace.json @aimonk2025
+
+# Skills and hooks
+/skills/ @aimonk2025
+/hooks/ @aimonk2025
+
+# Documentation
+*.md @aimonk2025
