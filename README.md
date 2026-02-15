@@ -58,28 +58,42 @@ IDEA --> DOCS --> CODE --> FIX --> SHIP --> LIVE
 
 ### Method 1: Direct GitHub Installation (Recommended)
 
-Install directly from GitHub:
+**Step 1:** Open Claude Code in your terminal
+
+```bash
+claude
+```
+
+**Step 2:** Install the plugin using the `/plugin` command
 
 ```bash
 /plugin install github:aimonk2025/cp-vibecoding-plugin
 ```
 
-After installation, start using it by saying: "I want to build a task management app"
+**Step 3:** Start using the plugin
+
+Simply say: "I want to build a task management app" or use any of the [trigger phrases](#trigger-phrases) below.
 
 ### Method 2: Local Development/Testing
 
-For plugin development or local testing, use the `--plugin-dir` flag:
+Use this method if you want to modify the plugin or test changes locally.
+
+**Step 1:** Clone the repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/aimonk2025/cp-vibecoding-plugin.git
-
-# Run Claude Code with the plugin
-claude --plugin-dir ./cp-vibecoding-plugin
-
-# Start using it
-# In Claude Code, just say: "I want to build a task management app"
+cd cp-vibecoding-plugin
 ```
+
+**Step 2:** Run Claude Code with the plugin directory flag
+
+```bash
+claude --plugin-dir ./
+```
+
+**Step 3:** Start using the plugin
+
+In Claude Code, say: "I want to build a task management app" or use any of the [trigger phrases](#trigger-phrases) below.
 
 ### Full Installation Guide
 
