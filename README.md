@@ -56,39 +56,26 @@ IDEA --> DOCS --> CODE --> FIX --> SHIP --> LIVE
 
 ## Installation
 
-### Via Marketplace (Recommended)
+### Method 1: Direct GitHub Installation (Recommended)
 
-The easiest way to install the Vibe Coding plugin:
-
-```bash
-# 1. Add the CP Vibe Coding marketplace
-/plugin marketplace add aimonk2025/cp-vibecoding-plugin
-
-# 2. Install the plugin
-/plugin install vibe-coding@cp-vibe-coding
-
-# 3. Start using it
-# In Claude Code, just say: "I want to build a task management app"
-```
-
-### Direct Installation from GitHub
-
-Alternatively, install directly from the GitHub repository:
+Install directly from GitHub:
 
 ```bash
 /plugin install github:aimonk2025/cp-vibecoding-plugin
 ```
 
-### Local Development/Testing
+After installation, start using it by saying: "I want to build a task management app"
 
-For plugin development or local testing:
+### Method 2: Local Development/Testing
+
+For plugin development or local testing, use the `--plugin-dir` flag:
 
 ```bash
 # Clone the repository
-git clone https://github.com/aimonk2025/cp-vibecoding-plugin.git cp-vibe-coding
+git clone https://github.com/aimonk2025/cp-vibecoding-plugin.git
 
-# Load the plugin
-claude --plugin-dir ./cp-vibe-coding
+# Run Claude Code with the plugin
+claude --plugin-dir ./cp-vibecoding-plugin
 
 # Start using it
 # In Claude Code, just say: "I want to build a task management app"
