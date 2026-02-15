@@ -8,14 +8,33 @@ Vibe Coding is a Claude Code plugin that guides you through the entire software 
 
 ```
 IDEA --> DOCS --> CODE --> FIX --> SHIP --> LIVE
+         ↑
+    REVERSE-ENGINEER (NEW!)
+    (from existing codebase)
 ```
 
-**Key Innovation:** Unlike traditional requirement gathering that dumps 50 questions at once, Vibe Coding asks **ONE question at a time**, adapts based on your answers, and tracks everything in `progress.txt` so you can resume seamlessly across sessions.
+**Key Innovations:**
+- **Interactive Conversation**: Asks **ONE question at a time**, adapts based on your answers
+- **Flexible Entry Points**: Start from scratch, existing PRD, OR existing codebase
+- **Reverse-Engineering**: Auto-detects and generates docs from your existing code
+- **Complete State Tracking**: Everything tracked in `progress.txt` for seamless session recovery
 
-## The 5 Phases
+## Flexible Entry Points (Start Anywhere!)
+
+Vibe Coding adapts to what you already have:
+
+| You Have | Entry Point | What Happens |
+|----------|-------------|--------------|
+| **Just an idea** | IDEATE (full) | 30-min interactive conversation, 10 topics |
+| **Existing codebase** | REVERSE-ENGINEER (NEW!) | Auto-detect → analyze → generate docs → fill gaps |
+| **Existing PRD** | DOCUMENT (PRD import) | Validate PRD quality → enhance if needed → generate other 7 docs |
+| **Want to skip questions** | IDEATE (fast-track) | 10 essential questions instead of full conversation |
+
+## The 5 Phases + Reverse-Engineering
 
 | Phase | Name | What Happens |
 |-------|------|--------------|
+| 0 | **REVERSE-ENGINEER** (NEW!) | Analyze existing code → generate tech docs → fill business context gaps |
 | 1 | **IDEATE** | Interactive Q&A conversation covering 10 topics naturally (not a questionnaire!) |
 | 2 | **DOCUMENT** | Generate 8 canonical docs (PRD, App Flow, Tech Stack, etc.) with approval workflow |
 | 3 | **BUILD** | Implement features step-by-step with continuous progress tracking |
@@ -24,7 +43,16 @@ IDEA --> DOCS --> CODE --> FIX --> SHIP --> LIVE
 
 ## Features
 
-### 🎯 New: Interactive Conversation System
+### 🆕 NEW: Reverse-Engineering from Existing Code
+- **Auto-detects codebases** - Recognizes frameworks when plugin activates
+- **8-area deep analysis** - Features, architecture, database, auth, APIs, middleware, UX, business logic
+- **Confidence scoring** - Shows HIGH/MEDIUM/LOW confidence with user verification
+- **Tech docs from code** - Generates TECH_STACK, BACKEND_STRUCTURE, FRONTEND_GUIDELINES directly from code
+- **Business context Q&A** - Fills gaps code can't reveal (problem statement, users, goals)
+- **Framework support** - Next.js, React, Vue, Express, Django, Rails, Laravel, FastAPI, and more
+- **Flexible exit paths** - Add features (IDEATE), improve code (BUILD), or keep docs and exit
+
+### 🎯 Interactive Conversation System
 - **ONE question at a time** - No more overwhelming question dumps
 - **Adaptive follow-ups** - Next question based on your previous answer
 - **Natural dialogue** - Feels like talking to a senior product manager
@@ -105,6 +133,56 @@ See [QUICKSTART.md](QUICKSTART.md) for commands, examples, and troubleshooting.
 
 ## What You'll Experience
 
+### NEW: Reverse-Engineering Existing Code
+
+```
+You: "Generate docs for my Next.js app"
+
+Claude: [Auto-detects codebase]
+"I detected an existing Next.js project with 487 code files.
+
+DETECTED:
+- Framework: Next.js 14 (App Router)
+- Language: TypeScript
+- Database: PostgreSQL (Prisma)
+- Auth: NextAuth.js
+
+Would you like me to reverse-engineer this and generate complete docs?"
+
+You: "Yes"
+
+Claude: [Deep analysis of 8 areas]
+"Analyzing features, architecture, database, auth, APIs...
+
+FOUND (with 95% confidence):
+- 12 features: Auth, Dashboard, User profiles, Blog posts, etc.
+- 3 database tables: users, posts, comments
+- REST API with 15 endpoints
+- NextAuth.js authentication
+
+Is this correct? Any corrections?"
+
+You: "Looks right"
+
+Claude: [Generates 5 tech docs from code]
+"Generated TECH_STACK.md, BACKEND_STRUCTURE.md, FRONTEND_GUIDELINES.md...
+
+Now I need business context. Let me ask a few questions:
+
+Q: What problem does this blog solve that others don't?"
+
+[10 min Q&A about business context]
+
+Claude: "Complete! Generated all 8 docs. What's next?
+1. Add features (plan new functionality)
+2. Improve code (refactor, add tests)
+3. Done (keep docs)"
+
+You: "Add features"
+
+Claude: "Great! Let's plan new features. What would you like to add?"
+```
+
 ### Starting a New Project
 
 ```
@@ -149,12 +227,32 @@ No context lost. Perfect continuity.
 
 Start a session by saying:
 
+**New Projects:**
 - "I want to build..." / "Build me..."
 - "New project" / "Start a project"
 - "Vibe code this"
+
+**Existing Code (NEW):**
+- "Generate docs from my code"
+- "Document this codebase"
+- "Create PRD from code"
+- "Reverse engineer this"
+- "Analyze my code"
+- Or just activate plugin in directory with code (auto-detects)
+
+**Resume/Continue:**
 - "Continue" / "Resume" / "Where were we?"
+
+**Other Phases:**
 - "Fix this bug" / "Debug this"
 - "Ship it" / "Deploy"
+
+**Manual Commands:**
+- `/vibe-coding:reverse-engineer` - Force reverse-engineering
+- `/vibe-coding:ideate` - Start IDEATE phase
+- `/vibe-coding:document` - Start DOCUMENT phase
+- `/vibe-coding:build` - Start BUILD phase
+- `/vibe-coding:status` - Show current progress
 
 ## Plugin Structure
 
@@ -170,7 +268,8 @@ cp-vibe-coding/
 ├── references/
 │   ├── interrogator/           # IDEATE phase
 │   │   ├── main.md             # Interactive conversation workflow
-│   │   ├── conversation-engine.md  # NEW: Adaptive questioning system
+│   │   ├── conversation-engine.md  # Adaptive questioning system
+│   │   ├── reverse-engineer-questions.md  # NEW: Business context gap-filling
 │   │   ├── core-concept.md
 │   │   ├── users.md
 │   │   ├── features.md
@@ -185,6 +284,11 @@ cp-vibe-coding/
 │   │   └── summary-template.md
 │   ├── doc-architect/          # DOCUMENT phase
 │   │   ├── main.md
+│   │   ├── codebase-analysis.md     # NEW: Reverse-engineering workflow
+│   │   ├── reverse-engineer/        # NEW: Code analysis tools
+│   │   │   ├── analysis-engine.md   # 8-area deep analysis
+│   │   │   ├── code-detectors.md    # Framework detection
+│   │   │   └── doc-generation-from-code.md  # Code-to-doc templates
 │   │   └── generators/         # 8 doc generators
 │   ├── engineer/               # BUILD phase
 │   │   ├── main.md
@@ -197,11 +301,18 @@ cp-vibe-coding/
 │   │   └── ...
 │   ├── shipper/                # SHIP phase
 │   │   └── main.md
-│   └── pipeline/               # NEW: Workflow management
-│       ├── state-management.md
-│       ├── workflow-state-machine.md
-│       ├── hooks-design.md
-│       └── progress-templates.md
+│   └── pipeline/               # Workflow management
+│       ├── entry-point-detection.md  # UPDATED: Auto-detection
+│       ├── state-management.md       # UPDATED: REVERSE-ENGINEER state
+│       ├── workflow-state-machine.md # UPDATED: New transitions
+│       ├── progress-templates.md     # UPDATED: Reverse-engineering templates
+│       └── hooks-design.md
+├── commands/                   # Manual commands
+│   ├── reverse-engineer.md     # NEW: /reverse-engineer command
+│   ├── ideate.md
+│   ├── document.md
+│   ├── build.md
+│   └── ...
 ├── README.md                   # This file
 ├── GETTING_STARTED.md          # Installation & usage
 ├── QUICKSTART.md               # Quick reference
@@ -220,22 +331,53 @@ cp-vibe-coding/
 
 ### Documentation Suite (DOCUMENT Phase)
 
-| Document | Purpose |
-|----------|---------|
-| `PRD.md` | Product requirements with feature IDs and acceptance criteria |
-| `APP_FLOW.md` | Every screen, route, and user journey |
-| `TECH_STACK.md` | Technologies with exact versions and reasoning |
-| `DESIGN_SYSTEM.md` | Colors, typography, spacing, components |
-| `BACKEND_STRUCTURE.md` | Database schema, API contracts, auth logic |
-| `FRONTEND_GUIDELINES.md` | Component architecture, patterns, conventions |
-| `IMPLEMENTATION_PLAN.md` | Numbered phases and steps for the entire build |
-| `CLAUDE.md` | Project-specific rules for Claude |
+All 8 canonical docs are generated whether you start from scratch OR reverse-engineer existing code:
+
+| Document | Generated From Scratch | Generated From Code |
+|----------|------------------------|---------------------|
+| `PRD.md` | Interrogation conversation | Code features + business Q&A |
+| `APP_FLOW.md` | User journey questions | Routes/navigation + UX Q&A |
+| `TECH_STACK.md` | Tech preferences Q&A | package.json, dependencies, config files |
+| `DESIGN_SYSTEM.md` | Design preferences + mood | CSS/Tailwind analysis + rationale Q&A |
+| `BACKEND_STRUCTURE.md` | Data model questions | Schema, models, API routes |
+| `FRONTEND_GUIDELINES.md` | Component preferences | Component patterns, file structure |
+| `IMPLEMENTATION_PLAN.md` | Build sequence plan | Future features roadmap |
+| `CLAUDE.md` | Project-specific rules | Project-specific rules |
 
 ### During BUILD Phase
 - Feature implementation tracking in `progress.txt`
 - Files changed log
 - Test results
 - Lessons learned in `tasks/lessons.md`
+
+## Supported Frameworks for Reverse-Engineering
+
+The reverse-engineering system detects and analyzes:
+
+**Frontend:**
+- Next.js (12, 13, 14 - both Pages and App Router)
+- React (Create React App, Vite)
+- Vue 3
+- Nuxt 3
+- Svelte / SvelteKit
+
+**Backend:**
+- Express.js
+- NestJS
+- Django
+- FastAPI
+- Ruby on Rails
+- Laravel
+
+**Databases:**
+- Prisma
+- TypeORM
+- Mongoose
+- Sequelize
+- Django ORM
+- ActiveRecord
+
+**More frameworks added regularly!**
 
 ## Requirements
 
