@@ -6,7 +6,7 @@ description: |
   Use when:
   (1) User wants to build ANY software project ("build me an app", "new project")
   (2) User has existing PRD/requirements ("use this PRD", "I have requirements")
-  (3) User has existing codebase ("generate docs from my code", "document this codebase", "create PRD from code", "reverse engineer", "analyze my code")
+  (3) User has existing codebase ("generate docs from my code/app/codebase/project", "document this project/codebase/app", "create PRD from code/app", "reverse engineer", "analyze my code/app/project")
   (4) User wants fast-track ("skip the questions", "I know what I want")
   (5) User needs documentation ("create PRD", "write specs", "generate docs")
   (6) User has bugs ("fix this", "debug", "not working", "error")

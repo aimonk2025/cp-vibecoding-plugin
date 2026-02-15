@@ -145,4 +145,55 @@ claude plugin install vibe-coding@cp-vibe-coding
 
 ---
 
+## Issue 3: Plugin Installed But Not Recognized (2026-02-15)
+
+### Symptoms
+- "Unknown skill: vibe-coding"
+- "Unknown slash command: reverse-engineer"
+- Trigger phrases don't activate the skill
+
+### Root Cause
+Plugin files exist but Claude Code hasn't loaded them into active session, OR trigger phrases don't match user's natural language.
+
+### Solution
+1. Restart Claude Code session
+2. If still not working, run: `/plugin reload vibe-coding`
+3. Verify with: `/plugin list` (should show vibe-coding)
+4. Use direct commands: `/reverse-engineer`, `/ideate`, `/build`
+
+### Workaround
+Use explicit slash commands instead of trigger phrases:
+- `/reverse-engineer` instead of "generate docs for my app"
+- `/ideate` instead of "build me an app"
+- `/build` instead of "implement this feature"
+
+### Improvements Made
+
+**1. Enhanced Trigger Phrases** (skills/vibe-coding/SKILL.md)
+- Added "app" and "project" as synonyms for "code/codebase"
+- Now recognizes: "generate docs for my app", "document my app", "analyze my project"
+
+**2. Improved Command Description** (commands/reverse-engineer.md)
+- Broader language matching
+- Clearer use case explanation
+
+**3. Trigger Aliases Configuration** (.claude-plugin/triggers.json)
+- Created explicit phrase mapping for common user language
+- Maps 9 common phrases to /reverse-engineer command
+
+**4. Troubleshooting Documentation** (README.md)
+- Added comprehensive troubleshooting section
+- Plugin activation verification steps
+- All available slash commands documented
+
+**5. Diagnostic Script** (scripts/check-activation.sh)
+- Created shell script to verify plugin installation
+- Checks all required files
+- Provides actionable next steps
+
+### Status
+Fixed in version 1.0.1 with improved trigger phrase matching, activation documentation, and diagnostic tools.
+
+---
+
 *This fix ensures that the cp-vibe-coding plugin can be easily installed by anyone from the marketplace without requiring SSH configuration.*
