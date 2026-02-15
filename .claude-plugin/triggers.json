@@ -1,0 +1,16 @@
+{
+  "reverse-engineer": {
+    "aliases": [
+      "generate docs for my app",
+      "generate docs from my app",
+      "document my app",
+      "document this app",
+      "create docs for my project",
+      "analyze my app",
+      "reverse engineer my app",
+      "generate documentation",
+      "make docs from code"
+    ],
+    "command": "/reverse-engineer"
+  }
+}

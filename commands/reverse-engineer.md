@@ -1,5 +1,5 @@
 ---
-description: Generate docs from existing codebase (reverse-engineer your code into PRD + tech docs)
+description: Generate docs from existing codebase/app/project (reverse-engineer your code into PRD + tech docs). Use when you have code and need documentation.
 ---
 
 # Reverse-Engineer Command

@@ -391,6 +391,58 @@ The reverse-engineering system detects and analyzes:
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick reference and examples
 - **[IMPROVEMENTS.md](IMPROVEMENTS.md)** - What we fixed and why
 
+## Troubleshooting
+
+### Plugin Not Recognized
+
+If you see "Unknown skill: vibe-coding" or "Unknown slash command":
+
+1. **Verify installation:**
+   ```bash
+   ls ~/.claude/plugins/marketplaces/cp-vibe-coding
+   ```
+   (On Windows: `dir C:\Users\<username>\.claude\plugins\marketplaces\cp-vibe-coding`)
+
+2. **Reload Claude Code:**
+   - Restart your Claude Code session
+   - OR run: `/plugin reload vibe-coding`
+
+3. **Check plugin list:**
+   ```bash
+   /plugin list
+   ```
+   You should see "vibe-coding" in the list.
+
+4. **Manual activation (if needed):**
+   ```bash
+   /plugin activate vibe-coding
+   ```
+
+### Trigger Phrases Not Working
+
+If typing "generate docs for my app" doesn't work:
+
+**Use these exact phrases:**
+- "generate docs from my code"
+- "analyze my code and create documentation"
+- "reverse engineer this codebase"
+- "document this project"
+
+**Or use the direct command:**
+```
+/reverse-engineer
+```
+
+### Commands Available
+
+All slash commands (work regardless of trigger phrases):
+- `/ideate` - Start requirements gathering
+- `/document` - Create documentation
+- `/build` - Implement features
+- `/reverse-engineer` - Analyze existing code
+- `/status` - Check progress
+- `/show` - Display generated docs
+
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/aimonk2025/cp-vibecoding-plugin/issues)
