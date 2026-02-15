@@ -1,8 +1,53 @@
 # Doc Architect Phase
 
-Generate canonical documentation from interrogation requirements.
+Generate canonical documentation from interrogation requirements OR existing codebase.
 
 **CRITICAL RULE: ONE DOCUMENT AT A TIME - NEVER GENERATE MULTIPLE IN PARALLEL**
+
+## Entry Mode Detection
+
+Before generating docs, detect where the input comes from:
+
+### Mode 1: From IDEATE (Standard Flow)
+- Source: Interrogation conversation
+- Has: Full requirements from Q&A
+- Generate: All 8 docs from scratch using interrogation context
+
+### Mode 2: From REVERSE-ENGINEER (Code Analysis Flow)
+- Source: Codebase analysis + gap-filling Q&A
+- Has: Technical analysis + business context
+- Generate: Tech docs from code, business docs from Q&A
+- **Load:** `reverse-engineer/doc-generation-from-code.md`
+
+### Mode 3: From PRD Import
+- Source: User-provided PRD
+- Has: PRD (validated/enhanced) + partial requirements
+- Generate: PRD already exists, generate remaining 7 docs
+- **Load:** `prd-import.md`
+
+### Detect Mode From Progress File
+
+Read progress.txt and check:
+```
+IF progress.txt shows:
+  phase: REVERSE-ENGINEER
+  status: tech_docs_complete OR gap_filling_complete
+THEN:
+  mode = "reverse-engineer"
+  Load: reverse-engineer/doc-generation-from-code.md
+  Use: Code analysis data + gap-filling answers
+
+ELSE IF progress.txt shows:
+  entry_point: user_provided_prd
+THEN:
+  mode = "prd-import"
+  Load: prd-import.md
+  Use: Enhanced PRD + targeted Q&A
+
+ELSE:
+  mode = "standard"
+  Use: IDEATE interrogation context
+```
 
 ## The 8 Canonical Docs
 
@@ -19,6 +64,35 @@ Generate in this order (dependencies matter):
 | 7 | IMPLEMENTATION_PLAN.md | Step-by-step build sequence | `generators/implementation-plan.md` |
 
 Also generate: `CLAUDE.md` (from `generators/claude-md.md`)
+
+## Mode-Specific Generation Order
+
+### Standard Mode (from IDEATE)
+Generate all 8 in order above - each from interrogation context.
+
+### Reverse-Engineer Mode (from Code Analysis)
+
+**Phase 1: Tech Docs from Code (5 docs)**
+These are generated directly from code analysis:
+1. TECH_STACK.md - from detected frameworks, dependencies
+2. BACKEND_STRUCTURE.md - from schema, routes, models
+3. FRONTEND_GUIDELINES.md - from components, patterns
+4. DESIGN_SYSTEM.md (partial) - from CSS/styling analysis
+5. APP_FLOW.md (partial) - from routes, navigation
+
+**Phase 2: Complete Docs from Code + Q&A (3 docs + enhancements)**
+After gap-filling interrogation:
+6. PRD.md - from code features + business context Q&A
+7. DESIGN_SYSTEM.md (complete) - enhance with rationale
+8. APP_FLOW.md (complete) - enhance with user intent
+9. IMPLEMENTATION_PLAN.md - for future features/improvements
+10. CLAUDE.md - project-specific rules
+
+**Load:** `reverse-engineer/doc-generation-from-code.md` for templates
+
+### PRD Import Mode
+1. PRD.md - already exists (enhanced if needed)
+2. Generate remaining 7 docs using PRD as primary source
 
 ## Progressive Loading Rules
 
@@ -176,10 +250,12 @@ Progress: 2/8
 
 ## Completion (After All 8 Docs Approved)
 
+### Standard/PRD Import Mode
+
 **After CLAUDE.md (8/8) is approved:**
 
 ```
-🎉 DOCUMENTATION PHASE COMPLETE!
+DOCUMENTATION PHASE COMPLETE!
 
 All 8 canonical documents generated and approved:
 
@@ -239,4 +315,107 @@ Updated!
 
 All docs still complete. Ready to build?
 Type "continue" to start BUILD phase.
+```
+
+### Reverse-Engineer Mode Completion
+
+**After all docs generated from code + gap-filling:**
+
+```
+REVERSE-ENGINEERING COMPLETE!
+
+8 documents generated from your codebase:
+
+FROM CODE ANALYSIS:
+✓ TECH_STACK.md - Technologies detected
+✓ BACKEND_STRUCTURE.md - Database & API structure
+✓ FRONTEND_GUIDELINES.md - Component patterns
+✓ DESIGN_SYSTEM.md - Styling system
+✓ APP_FLOW.md - User journeys mapped
+
+FROM CODE + YOUR ANSWERS:
+✓ PRD.md - Product requirements
+✓ IMPLEMENTATION_PLAN.md - Future roadmap
+✓ CLAUDE.md - Project rules
+
+All docs saved to: docs/
+
+---
+
+WHAT'S NEXT?
+
+Your codebase is now fully documented. Options:
+
+1. ADD FEATURES
+   Start IDEATE phase to plan new functionality
+   Type: "add features" or "ideate"
+
+2. IMPROVE CODE
+   Start BUILD phase to enhance existing code
+   - Refactor for better patterns
+   - Add tests
+   - Improve performance
+   - Fix technical debt
+   Type: "improve code" or "build"
+
+3. DONE
+   Keep the docs and exit workflow
+   Type: "done" or "exit"
+
+What would you like to do?
+```
+
+**[WAIT FOR USER DECISION]**
+
+**If "add features":**
+```
+TRANSITIONING: REVERSE-ENGINEER → IDEATE
+
+You already have docs for your existing features.
+Now let's plan NEW features to add.
+
+Loading IDEATE phase...
+Mode: Add Features (existing codebase)
+
+[Load references/interrogator/main.md with mode=add_features]
+```
+
+**If "improve code":**
+```
+TRANSITIONING: REVERSE-ENGINEER → BUILD
+
+Your codebase is documented. Let's improve it.
+
+Options:
+1. Refactor - Better patterns, cleaner code
+2. Add Tests - Increase coverage
+3. Performance - Optimize slow areas
+4. Security - Harden auth, fix vulnerabilities
+5. Implement Planned - Build features in IMPLEMENTATION_PLAN.md
+
+Which improvement area? (1-5 or describe)
+```
+
+**If "done":**
+```
+WORKFLOW COMPLETE
+
+Your documentation is saved in docs/
+
+Files created:
+- docs/PRD.md
+- docs/APP_FLOW.md
+- docs/TECH_STACK.md
+- docs/DESIGN_SYSTEM.md
+- docs/BACKEND_STRUCTURE.md
+- docs/FRONTEND_GUIDELINES.md
+- docs/IMPLEMENTATION_PLAN.md
+- docs/CLAUDE.md
+
+You can return anytime with:
+- /vibe-coding:reverse-engineer - Re-analyze codebase
+- /vibe-coding:ideate - Plan new features
+- /vibe-coding:build - Start building
+
+Goodbye!
 ```
