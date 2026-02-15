@@ -1,0 +1,39 @@
+{
+  "name": "cp-vibe-coding",
+  "owner": {
+    "name": "CP Vibe Coding",
+    "email": "contact@example.com"
+  },
+  "metadata": {
+    "description": "Marketplace for the CP Vibe Coding plugin - a complete software development workflow system",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "vibe-coding",
+      "source": "./",
+      "strict": false,
+      "description": "Complete software development workflow from idea to production through 5 interactive phases: ideation, documentation, building, debugging, and shipping",
+      "version": "1.0.0",
+      "author": {
+        "name": "CP Vibe Coding",
+        "email": "contact@example.com"
+      },
+      "homepage": "https://github.com/aimonk2025/cp-vibecoding-plugin",
+      "repository": "https://github.com/aimonk2025/cp-vibecoding-plugin",
+      "license": "MIT",
+      "keywords": [
+        "workflow",
+        "requirements",
+        "documentation",
+        "development",
+        "project-management",
+        "vibe-coding",
+        "ideation",
+        "prd",
+        "interactive"
+      ],
+      "category": "productivity"
+    }
+  ]
+}
