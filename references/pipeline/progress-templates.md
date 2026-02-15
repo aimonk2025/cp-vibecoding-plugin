@@ -67,6 +67,371 @@ PHASE: SHIP
 STATUS: not_started
 ```
 
+## REVERSE-ENGINEER Initial (Auto-Detected)
+
+```
+VIBE CODING PROGRESS
+====================
+Project: [Auto-detected from package.json/code]
+Entry Point: Reverse-Engineering (Auto-detected)
+Created: [timestamp]
+Last Updated: [timestamp]
+
+CURRENT STATE:
+phase: REVERSE-ENGINEER
+step: quick_scan_in_progress
+next_action: Complete quick scan
+
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: in_progress
+started: [timestamp]
+entry_point: auto_detected_codebase
+
+AUTO-DETECTION RESULTS:
+framework: [detected]
+language: [detected]
+file_count: [count]
+has_database: [true/false]
+has_tests: [true/false]
+
+QUICK SCAN:
+status: in_progress
+started: [timestamp]
+
+DEEP ANALYSIS:
+status: not_started
+
+DOCS FROM CODE:
+status: not_started
+
+GAP-FILLING:
+status: not_started
+
+COMPLETE DOCS:
+status: not_started
+
+NEXT ACTION: Complete quick scan - detect framework and scope
+
+---
+PHASE: IDEATE
+---
+
+STATUS: not_started
+
+---
+PHASE: DOCUMENT
+---
+
+STATUS: not_started
+
+---
+PHASE: BUILD
+---
+
+STATUS: not_started
+
+---
+PHASE: DEBUG
+---
+
+[Debug sessions tracked here]
+
+---
+PHASE: SHIP
+---
+
+STATUS: not_started
+```
+
+## REVERSE-ENGINEER Analysis In Progress
+
+```
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: in_progress
+started: 2026-02-15T10:30:00Z
+last_updated: 2026-02-15T10:45:00Z
+
+QUICK SCAN RESULTS:
+framework: Next.js 14.0.0
+router: app
+language: TypeScript
+file_count: 487
+has_database: true (PostgreSQL via Prisma)
+has_tests: true (Jest)
+estimated_time: 15-20 minutes
+completed_at: 2026-02-15T10:33:00Z
+
+DEEP ANALYSIS PROGRESS:
+✓ Features & Functionality (5m 30s)
+  - Features detected: 5
+  - Routes: 12
+  - API endpoints: 15
+
+✓ Technical Architecture (2m 15s)
+  - Components: 23
+  - Dependencies: 32
+
+✓ Business Logic (3m 45s)
+  - Validation schemas: 4
+  - Permission rules: 3
+
+✓ UX & Design (1m 50s)
+  - Colors extracted: 8
+  - Typography: Inter font
+
+⊙ Database Analysis (in progress...)
+  - Tables found: 3
+  - Analyzing relationships...
+
+  Pending: Auth, External APIs, Middleware
+
+ANALYSIS RESULTS (partial):
+
+Features Detected: 5
+- User Authentication (routes: /login, /signup, API: 3 endpoints)
+- Task Management (routes: /tasks, /tasks/:id, API: 5 endpoints)
+- Team Collaboration (routes: /teams, API: 4 endpoints)
+- User Profile (routes: /profile, API: 2 endpoints)
+- Dashboard (route: /, API: 1 endpoint)
+
+CONFIDENCE VERIFICATION:
+status: not_started
+
+NEXT ACTION: Complete deep analysis (database, auth, external APIs, middleware)
+```
+
+## REVERSE-ENGINEER Confidence Verification
+
+```
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: in_progress
+step: confidence_verification_pending
+last_updated: 2026-02-15T10:48:00Z
+
+DEEP ANALYSIS COMPLETE:
+overall_confidence: 92%
+duration: 15m 42s
+files_analyzed: 487
+completed_at: 2026-02-15T10:45:42Z
+
+ANALYSIS RESULTS:
+
+Features Detected: 5
+- User Authentication (routes: /login, /signup, API: 3 endpoints)
+- Task Management (routes: /tasks, /tasks/:id, API: 5 endpoints)
+- Team Collaboration (routes: /teams, API: 4 endpoints)
+- User Profile (routes: /profile, API: 2 endpoints)
+- Dashboard (route: /, API: 1 endpoint)
+
+Tech Stack:
+- Framework: Next.js 14.0.0 (100% confidence)
+- Language: TypeScript
+- Database: PostgreSQL via Prisma 5.0.0 (100% confidence)
+- Auth: NextAuth 4.x (75% confidence)
+- Styling: Tailwind CSS 3.3.0
+- Components: 23 total (5 pages, 12 features, 6 UI)
+
+Database Schema:
+- Tables: 3 (users, tasks, teams)
+- Relationships: 2 (users→tasks, teams→tasks)
+- Indexes: 3
+
+External Services:
+- SendGrid (email)
+- Stripe (payments)
+
+Middleware:
+- auth, logger, error-handler
+
+CONFIDENCE VERIFICATION:
+status: pending
+awaiting_user_confirmation: true
+displayed_summary: true
+
+NEXT ACTION: Await user confirmation of detected configuration
+```
+
+## REVERSE-ENGINEER Docs From Code
+
+```
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: in_progress
+step: tech_docs_generating
+last_updated: 2026-02-15T11:00:00Z
+
+CONFIDENCE VERIFIED: yes
+user_corrections: none
+verified_at: 2026-02-15T10:50:00Z
+
+DOCS GENERATED FROM CODE:
+
+✓ TECH_STACK.md
+  generated: 2026-02-15T10:52:00Z
+  approved: 2026-02-15T10:53:00Z
+  location: docs/TECH_STACK.md
+  lines: 180
+
+✓ BACKEND_STRUCTURE.md
+  generated: 2026-02-15T10:54:00Z
+  approved: 2026-02-15T10:55:00Z
+  location: docs/BACKEND_STRUCTURE.md
+  lines: 245
+
+✓ FRONTEND_GUIDELINES.md
+  generated: 2026-02-15T10:56:00Z
+  approved: 2026-02-15T10:57:00Z
+  location: docs/FRONTEND_GUIDELINES.md
+  lines: 198
+
+⊙ DESIGN_SYSTEM.md (partial)
+  generated: 2026-02-15T10:58:00Z
+  status: awaiting_approval
+  location: docs/DESIGN_SYSTEM.md
+  lines: 156
+  note: Will be enhanced after gap-filling
+
+DOCS PENDING:
+- APP_FLOW.md (partial)
+
+GAP-FILLING:
+status: not_started
+
+NEXT ACTION: Await approval of DESIGN_SYSTEM.md (partial)
+```
+
+## REVERSE-ENGINEER Gap-Filling In Progress
+
+```
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: in_progress
+step: gap_filling_in_progress
+last_updated: 2026-02-15T11:20:00Z
+
+DOCS FROM CODE COMPLETE: 5 docs generated and approved
+
+GAP-FILLING INTERROGATION:
+
+status: in_progress
+started: 2026-02-15T11:05:00Z
+questions_asked: 8
+estimated_remaining: 5-8 questions
+
+CODE ANALYSIS CONTEXT:
+Features detected: Task management, team collaboration, user auth
+Tech stack: Next.js 14, TypeScript, PostgreSQL, Prisma
+Database: 3 tables (users, tasks, teams)
+Components: 23 components (5 pages, 12 features, 6 UI)
+
+TRANSCRIPT:
+
+Q: I can see your app does task management with team collaboration. What specific problem does this solve?
+A: Busy parents forget household tasks because they track on paper and lose notes. This causes stress and family conflicts.
+
+Q: Who specifically are these busy parents? Describe one real person.
+A: Sarah, 35, working mom, 2 kids ages 5 and 8, uses phone for everything but struggles with paper lists
+
+Q: How is Sarah solving this today without your app?
+A: Paper lists on fridge + phone reminders, but things fall through cracks between the two systems
+
+Q: What's the cost when tasks fall through the cracks?
+A: Stress, arguments, missed activities, late bills
+
+Q: What would 'success' look like in 6 months?
+A: 10,000 active families using it weekly, App Store feature
+
+Q: How do you measure 'active'?
+A: Family completes at least 5 tasks per week using the app
+
+Q: I detected 5 main features. Which is most critical?
+A: Task management - everything else is secondary
+
+Q: Why team sharing before profile features?
+A: The whole point is family collaboration
+
+TOPICS COVERED:
+✓ Problem statement - Complete
+✓ Target users - Complete
+✓ Success metrics - Complete
+⊙ Feature priorities - Partial (need more on roadmap)
+✗ Database changes - Not asked yet
+✗ Design rationale - Not asked yet
+✗ Roadmap - Not asked yet
+
+KEY INSIGHTS:
+- Primary user: Working parents (25-45)
+- Core pain: Paper + digital systems don't sync
+- Success metric: 10K families, 5+ tasks/week
+- Business model: Freemium with family plan
+- Core feature: Task management with family sharing
+
+NEXT ACTION: Continue gap-filling - ask about database changes and roadmap
+```
+
+## REVERSE-ENGINEER Complete
+
+```
+---
+PHASE: REVERSE-ENGINEER
+---
+
+STATUS: complete
+started: 2026-02-15T10:30:00Z
+completed: 2026-02-15T11:45:00Z
+duration: 1h 15m
+
+ENTRY POINT: auto_detected_codebase
+
+ANALYSIS SUMMARY:
+files_analyzed: 487
+features_detected: 5
+framework: Next.js 14.0.0
+database: PostgreSQL via Prisma
+overall_confidence: 92%
+
+GAP-FILLING SUMMARY:
+questions_asked: 15
+topics_covered: 8/8
+key_insights:
+  - Problem: Busy parents forget tasks tracked on paper
+  - Users: Working parents 25-45, mobile-first
+  - Success: 10K families, 5 tasks/week
+  - Model: Freemium with family plan
+
+ALL DOCS GENERATED:
+✓ TECH_STACK.md (from code)
+✓ BACKEND_STRUCTURE.md (from code)
+✓ FRONTEND_GUIDELINES.md (from code)
+✓ DESIGN_SYSTEM.md (code + Q&A enhanced)
+✓ APP_FLOW.md (code + Q&A enhanced)
+✓ PRD.md (Q&A + code)
+✓ IMPLEMENTATION_PLAN.md (Q&A roadmap + code)
+✓ CLAUDE.md (code + Q&A context)
+
+NEXT OPTIONS PRESENTED:
+1. Add features (IDEATE)
+2. Improve code (BUILD)
+3. Just keep docs (Exit)
+
+user_choice: [awaiting]
+
+NEXT ACTION: Await user choice for next phase
+```
+
 ## IDEATE In Progress
 
 ```

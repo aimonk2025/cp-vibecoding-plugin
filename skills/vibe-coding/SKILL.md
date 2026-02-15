@@ -6,12 +6,14 @@ description: |
   Use when:
   (1) User wants to build ANY software project ("build me an app", "new project")
   (2) User has existing PRD/requirements ("use this PRD", "I have requirements")
-  (3) User has existing codebase ("generate docs for my code", "analyze this project")
+  (3) User has existing codebase ("generate docs from my code", "document this codebase", "create PRD from code", "reverse engineer", "analyze my code")
   (4) User wants fast-track ("skip the questions", "I know what I want")
   (5) User needs documentation ("create PRD", "write specs", "generate docs")
   (6) User has bugs ("fix this", "debug", "not working", "error")
   (7) User wants to deploy ("ship", "deploy", "launch")
   (8) User asks "what's next?", "where am I?", "continue", "resume"
+
+  AUTO-DETECTS existing code when plugin activates and offers to reverse-engineer it.
 
   CAN START FROM ANY PHASE - detects what user has and adapts workflow accordingly.
 ---

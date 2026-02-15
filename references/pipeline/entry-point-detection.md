@@ -2,6 +2,226 @@
 
 Users can start from ANY phase. System validates quality and fills gaps.
 
+---
+
+## Auto-Detection on Plugin Activation
+
+When the vibe-coding plugin activates, FIRST check if there's existing code in the current directory.
+
+### Auto-Detection Logic
+
+```javascript
+function onPluginActivate(projectPath) {
+  // Step 1: Check for existing codebase
+  const codebaseDetection = detectExistingCodebase(projectPath);
+
+  if (codebaseDetection.hasCode) {
+    // Show auto-detected codebase and offer options
+    showCodebaseDetectionPrompt(codebaseDetection);
+    return; // Wait for user choice
+  }
+
+  // Step 2: No code detected - proceed with normal entry point detection
+  proceedWithNormalFlow();
+}
+
+function detectExistingCodebase(projectPath) {
+  const detection = {
+    hasCode: false,
+    framework: null,
+    language: null,
+    fileCount: 0,
+    hasDatabase: false,
+    summary: ''
+  };
+
+  // Check for package managers / dependency files
+  const hasPackageJson = exists(join(projectPath, 'package.json'));
+  const hasRequirementsTxt = exists(join(projectPath, 'requirements.txt'));
+  const hasGemfile = exists(join(projectPath, 'Gemfile'));
+  const hasComposerJson = exists(join(projectPath, 'composer.json'));
+  const hasCargoToml = exists(join(projectPath, 'Cargo.toml'));
+  const hasGoMod = exists(join(projectPath, 'go.mod'));
+
+  // Must have at least one dependency file
+  if (!hasPackageJson && !hasRequirementsTxt && !hasGemfile &&
+      !hasComposerJson && !hasCargoToml && !hasGoMod) {
+    return detection;
+  }
+
+  // Count code files
+  const codePatterns = [
+    '**/*.{js,jsx,ts,tsx}',
+    '**/*.{py}',
+    '**/*.{rb}',
+    '**/*.{php}',
+    '**/*.{go}',
+    '**/*.{rs}'
+  ];
+
+  const codeFiles = glob(codePatterns, {
+    cwd: projectPath,
+    ignore: ['node_modules/**', 'venv/**', 'env/**', '.venv/**', 'vendor/**', 'dist/**', 'build/**']
+  });
+
+  detection.fileCount = codeFiles.length;
+
+  // Need at least 10 code files to consider it a codebase
+  if (detection.fileCount < 10) {
+    return detection;
+  }
+
+  // Codebase detected!
+  detection.hasCode = true;
+
+  // Quick framework detection
+  if (hasPackageJson) {
+    const pkg = readPackageJson(projectPath);
+    if (pkg.dependencies?.next) {
+      detection.framework = 'Next.js';
+      detection.language = 'TypeScript/JavaScript';
+    } else if (pkg.dependencies?.react) {
+      detection.framework = 'React';
+      detection.language = 'TypeScript/JavaScript';
+    } else if (pkg.dependencies?.vue) {
+      detection.framework = 'Vue';
+      detection.language = 'TypeScript/JavaScript';
+    } else if (pkg.dependencies?.express) {
+      detection.framework = 'Express';
+      detection.language = 'JavaScript';
+    }
+  } else if (hasRequirementsTxt) {
+    const reqs = read(join(projectPath, 'requirements.txt'));
+    if (/django/i.test(reqs)) {
+      detection.framework = 'Django';
+      detection.language = 'Python';
+    } else if (/fastapi/i.test(reqs)) {
+      detection.framework = 'FastAPI';
+      detection.language = 'Python';
+    }
+  } else if (hasGemfile) {
+    detection.framework = 'Rails';
+    detection.language = 'Ruby';
+  } else if (hasComposerJson) {
+    detection.framework = 'Laravel';
+    detection.language = 'PHP';
+  }
+
+  // Check for database
+  detection.hasDatabase = exists(join(projectPath, 'prisma/schema.prisma')) ||
+                          exists(join(projectPath, 'db/schema.rb')) ||
+                          glob('**/models.py', { cwd: projectPath }).length > 0 ||
+                          glob('**/*.entity.ts', { cwd: projectPath }).length > 0;
+
+  // Generate summary
+  detection.summary = `${detection.framework || 'Unknown'} project with ${detection.fileCount} code files`;
+  if (detection.hasDatabase) {
+    detection.summary += ' and database';
+  }
+
+  return detection;
+}
+```
+
+### Auto-Detection Prompt
+
+When code is detected, show this prompt:
+
+```
+I detected an existing codebase in this directory:
+
+DETECTED:
+- Framework: {{framework}} {{#if version}}({{version}}){{/if}}
+- Language: {{language}}
+- Code Files: {{fileCount}}
+{{#if hasDatabase}}- Database: Detected{{/if}}
+
+OPTIONS:
+1. Generate docs from existing code (reverse-engineer)
+   → I'll analyze your code and create PRD + technical docs
+
+2. Build a new project here
+   → Start fresh with IDEATE phase (careful: may conflict with existing code)
+
+3. Continue with something else
+   → Tell me what you need
+
+Type 1, 2, or 3:
+```
+
+### User Selection Handling
+
+```javascript
+function handleAutoDetectionChoice(choice, codebaseDetection) {
+  switch (choice) {
+    case '1':
+    case 'reverse':
+    case 'generate docs':
+    case 'analyze':
+      // Start reverse-engineering workflow
+      updateProgressFile('ENTRY_POINT', 'reverse_engineer_auto_detected');
+      loadReference('codebase-analysis.md');
+      loadReference('analysis-engine.md');
+      loadReference('code-detectors.md');
+      startReverseEngineeringWorkflow(codebaseDetection.projectPath);
+      break;
+
+    case '2':
+    case 'new':
+    case 'build new':
+      // Warn about existing code, then start IDEATE
+      showWarning(`
+WARNING: You have existing code in this directory.
+Starting a new project may cause conflicts.
+
+Continue anyway? (yes/no)
+      `);
+      // If confirmed, start normal IDEATE
+      break;
+
+    case '3':
+    case 'other':
+    case 'something else':
+      // Ask what they need
+      showToUser('What would you like to do?');
+      // Fall through to normal trigger detection
+      break;
+
+    default:
+      // Try to interpret as trigger phrase
+      detectTriggerPhrase(choice);
+  }
+}
+```
+
+### Skip Auto-Detection
+
+Auto-detection is skipped when:
+- User explicitly triggers a specific phase ("I want to build a new app")
+- User provides a PRD ("Here's my PRD")
+- User resumes session ("continue", "where were we?")
+- Directory has < 10 code files
+
+### Progress Tracking for Auto-Detection
+
+```
+VIBE CODING PROGRESS
+====================
+Entry Point: Auto-detected Codebase
+Created: [timestamp]
+
+AUTO-DETECTION RESULTS:
+framework: Next.js
+language: TypeScript
+file_count: 487
+has_database: true
+user_choice: reverse_engineer
+
+NEXT ACTION: Start reverse-engineering analysis
+```
+
+---
+
 ## Entry Point Scenarios
 
 ### 1. Complete Greenfield (New Project)
@@ -27,6 +247,20 @@ Users can start from ANY phase. System validates quality and fills gaps.
 ### 4. Fast-Track (User Knows What They Want)
 **User says:** "Skip the long questions, I know what I want"
 **Action:** Condensed interrogation (10 key questions)
+
+### 5. Reverse-Engineer Existing Codebase (NEW)
+**User says:** "Generate docs from my code" / "Document this codebase" / "Create PRD from code"
+**OR:** Auto-detected when plugin finds existing code
+
+**Action:**
+1. Run deep codebase analysis (8 areas)
+2. Show confidence levels, get user verification
+3. Generate technical docs (TECH_STACK, BACKEND_STRUCTURE, FRONTEND_GUIDELINES, partial DESIGN_SYSTEM, partial APP_FLOW)
+4. Run gap-filling interrogation for business context
+5. Complete doc suite (PRD, enhanced DESIGN_SYSTEM, enhanced APP_FLOW, IMPLEMENTATION_PLAN, CLAUDE.md)
+6. Present next options: IDEATE (add features) / BUILD (enhance code) / Done
+
+**See:** `codebase-analysis.md` for detailed workflow
 
 ## PRD Quality Validation (Critical!)
 

@@ -5,6 +5,27 @@
 ```
 START
   ↓
+  ├─ [New project] → IDEATE
+  ├─ [Has PRD] → IDEATE (validation) or DOCUMENT
+  └─ [Has code / Auto-detected] → REVERSE-ENGINEER
+
+REVERSE-ENGINEER (codebase analysis) ──── NEW ────
+  ├─ quick_scan_in_progress
+  ├─ quick_scan_complete
+  ├─ deep_analysis_in_progress
+  ├─ deep_analysis_complete
+  ├─ confidence_verification_pending
+  ├─ confidence_verified
+  ├─ tech_docs_generating
+  ├─ tech_docs_complete
+  ├─ gap_filling_in_progress
+  ├─ gap_filling_complete
+  ├─ complete_docs_generating
+  └─ all_docs_complete → [User Choice]
+      ├─ "Add features" → IDEATE (add features mode)
+      ├─ "Improve code" → BUILD (enhancement mode)
+      └─ "Done" → EXIT
+
 IDEATE (interrogation)
   ├─ interrogation_started
   ├─ topic_in_progress [topic_name]
@@ -49,6 +70,111 @@ MONITOR (post-launch)
 ```
 
 ## State Transition Rules
+
+### REVERSE-ENGINEER Internal Transitions
+
+```
+quick_scan_in_progress
+  ↓ [scan complete]
+quick_scan_complete
+  ↓ [start deep analysis]
+deep_analysis_in_progress
+  ↓ [all 8 areas analyzed]
+deep_analysis_complete
+  ↓ [show summary]
+confidence_verification_pending
+  ↓ [user confirms or corrects]
+confidence_verified
+  ↓ [start doc generation]
+tech_docs_generating
+  ↓ [5 docs generated and approved]
+tech_docs_complete
+  ↓ [start gap-filling]
+gap_filling_in_progress
+  ↓ [all questions answered]
+gap_filling_complete
+  ↓ [generate remaining docs]
+complete_docs_generating
+  ↓ [all 8 docs complete]
+all_docs_complete
+  ↓ [present options]
+[User Choice]
+```
+
+### REVERSE-ENGINEER → IDEATE
+
+**Trigger:**
+- User chooses "Add features" after reverse-engineering complete
+
+**Conditions:**
+- All 8 docs generated and approved
+- Gap-filling complete
+
+**Actions:**
+1. Update progress.txt:
+   ```
+   PHASE: REVERSE-ENGINEER
+   STATUS: complete
+   completed: [timestamp]
+   next_phase: IDEATE
+   mode: add_features
+   ```
+2. Initialize IDEATE with context:
+   ```
+   PHASE: IDEATE
+   STATUS: in_progress
+   mode: add_features
+   existing_features: [list from analysis]
+   existing_docs: [PRD, APP_FLOW, ...]
+   ```
+3. Load `references/interrogator/main.md`
+4. Set context: "Adding features to existing app"
+5. Start interrogation focused on NEW features
+
+### REVERSE-ENGINEER → BUILD
+
+**Trigger:**
+- User chooses "Improve code" after reverse-engineering complete
+
+**Conditions:**
+- All 8 docs generated and approved
+- Gap-filling complete
+
+**Actions:**
+1. Update progress.txt:
+   ```
+   PHASE: REVERSE-ENGINEER
+   STATUS: complete
+   completed: [timestamp]
+   next_phase: BUILD
+   mode: enhancement
+   ```
+2. Initialize BUILD with context:
+   ```
+   PHASE: BUILD
+   STATUS: in_progress
+   mode: enhancement
+   available_actions: [refactor, add_tests, improve_performance, fix_bugs, implement_planned]
+   ```
+3. Load `references/engineer/main.md`
+4. Present improvement options
+5. Start enhancement workflow
+
+### REVERSE-ENGINEER → EXIT
+
+**Trigger:**
+- User chooses "Just keep docs" after reverse-engineering complete
+
+**Actions:**
+1. Update progress.txt:
+   ```
+   PHASE: REVERSE-ENGINEER
+   STATUS: complete
+   completed: [timestamp]
+   outcome: docs_only
+   ```
+2. Show summary of generated docs
+3. Exit workflow
 
 ### IDEATE → DOCUMENT
 
