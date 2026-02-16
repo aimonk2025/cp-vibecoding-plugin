@@ -1,463 +1,332 @@
-# Vibe Coding Plugin for Claude Code
+# Vibe Coding Skills for Claude
 
-Build software from vague idea to shipped product through 5 structured phases with **interactive conversation** and **complete state tracking**.
+Build software from idea to shipped product through 7 specialized skills with **interactive conversation** and **complete state tracking**.
 
 ## What is This?
 
-Vibe Coding is a Claude Code plugin that guides you through the entire software development lifecycle with a conversational, adaptive approach:
+Vibe Coding is a collection of Claude skills that guide you through the entire software development lifecycle:
 
 ```
-IDEA --> DOCS --> CODE --> FIX --> SHIP --> LIVE
-         ↑
-    REVERSE-ENGINEER (NEW!)
-    (from existing codebase)
+IDEA → DOCS → CODE → FIX → SHIP → LIVE
+        ↑
+   REVERSE-ENGINEER
+   (from existing code)
 ```
 
-**Key Innovations:**
-- **Interactive Conversation**: Asks **ONE question at a time**, adapts based on your answers
-- **Flexible Entry Points**: Start from scratch, existing PRD, OR existing codebase
-- **Reverse-Engineering**: Auto-detects and generates docs from your existing code
-- **Complete State Tracking**: Everything tracked in `progress.txt` for seamless session recovery
+**Key Features:**
+- **7 Composable Skills** - Each phase is independent, works standalone or together
+- **Natural Language** - No commands needed, just describe what you want
+- **Context Handoff** - Seamless transitions between skills via progress.txt
+- **Flexible Entry** - Start from scratch, PRD, or existing codebase
+- **Complete Tracking** - Everything saved in progress.txt for perfect session recovery
 
-## Flexible Entry Points (Start Anywhere!)
+## The 7 Skills
 
-Vibe Coding adapts to what you already have:
+| Skill | Purpose | Natural Language Triggers |
+|-------|---------|--------------------------|
+| **vibe-coding-orchestrator** | Entry point, routing, status | "build me an app", "continue", "show status" |
+| **vibe-coding-reverse-engineer** | Analyze existing code → docs | "generate docs from my code", "document this app" |
+| **vibe-coding-ideate** | Requirements gathering | "let's ideate", "plan features", "I have an idea" |
+| **vibe-coding-document** | Generate 8 canonical docs | "generate docs", "create PRD" |
+| **vibe-coding-build** | Implementation | "let's build", "start coding" |
+| **vibe-coding-debug** | Bug fixing | "it's broken", "fix this bug" |
+| **vibe-coding-ship** | Deployment | "deploy", "ship it", "launch" |
 
-| You Have | Entry Point | What Happens |
-|----------|-------------|--------------|
-| **Just an idea** | IDEATE (full) | 30-min interactive conversation, 10 topics |
-| **Existing codebase** | REVERSE-ENGINEER (NEW!) | Auto-detect → analyze → generate docs → fill gaps |
-| **Existing PRD** | DOCUMENT (PRD import) | Validate PRD quality → enhance if needed → generate other 7 docs |
-| **Want to skip questions** | IDEATE (fast-track) | 10 essential questions instead of full conversation |
+## Quick Start
 
-## The 5 Phases + Reverse-Engineering
-
-| Phase | Name | What Happens |
-|-------|------|--------------|
-| 0 | **REVERSE-ENGINEER** (NEW!) | Analyze existing code → generate tech docs → fill business context gaps |
-| 1 | **IDEATE** | Interactive Q&A conversation covering 10 topics naturally (not a questionnaire!) |
-| 2 | **DOCUMENT** | Generate 8 canonical docs (PRD, App Flow, Tech Stack, etc.) with approval workflow |
-| 3 | **BUILD** | Implement features step-by-step with continuous progress tracking |
-| 4 | **DEBUG** | Fix bugs surgically with investigation logs and lessons learned |
-| 5 | **SHIP** | Pre-flight checks, deploy, and post-launch monitoring |
-
-## Features
-
-### 🆕 NEW: Reverse-Engineering from Existing Code
-- **Auto-detects codebases** - Recognizes frameworks when plugin activates
-- **8-area deep analysis** - Features, architecture, database, auth, APIs, middleware, UX, business logic
-- **Confidence scoring** - Shows HIGH/MEDIUM/LOW confidence with user verification
-- **Tech docs from code** - Generates TECH_STACK, BACKEND_STRUCTURE, FRONTEND_GUIDELINES directly from code
-- **Business context Q&A** - Fills gaps code can't reveal (problem statement, users, goals)
-- **Framework support** - Next.js, React, Vue, Express, Django, Rails, Laravel, FastAPI, and more
-- **Flexible exit paths** - Add features (IDEATE), improve code (BUILD), or keep docs and exit
-
-### 🎯 Interactive Conversation System
-- **ONE question at a time** - No more overwhelming question dumps
-- **Adaptive follow-ups** - Next question based on your previous answer
-- **Natural dialogue** - Feels like talking to a senior product manager
-- **Gap detection** - Automatically identifies vague or missing information
-
-### 💾 Complete State Management
-- **progress.txt** - Single source of truth for all workflow state
-- **Full conversation transcript** - Every Q&A preserved with timestamps
-- **Session recovery** - Resume from exact point, even days later
-- **Phase transitions** - Automatic validation before moving to next phase
-
-### 🔄 Workflow Engine
-- **State machine** - Formal phase transitions with completion criteria
-- **Hooks system** - Auto-save progress after every interaction
-- **Quality gates** - Can't skip required steps or incomplete phases
-- **Error recovery** - Graceful handling of bugs during BUILD phase
-
-### 🎨 Design & Documentation
-- **Interactive Brand Colors** - Mood-based palette suggestions with industry context
-- **Design System Generation** - CSS variables, Tailwind config, and token definitions
-- **8 Canonical Docs** - Complete documentation suite generated from conversation
-- **Cross-referenced** - Docs stay consistent with each other
-
-### 🛡️ Protection & Learning
-- **Protection Rules** - Guardrails prevent regressions and scope creep
-- **Lessons Learned** - Mistakes captured to avoid repeating them
-- **Progressive Disclosure** - Information loads only when needed
-- **Documentation is Law** - Code implementation follows docs exactly
-
-## Installation
-
-### Method 1: Direct GitHub Installation (Recommended)
-
-**Step 1:** Open Claude Code in your terminal
+### Install Skills
 
 ```bash
-claude
+# Clone the repository
+git clone https://github.com/aimonk2025/cp-vibe-coding.git
+cd cp-vibe-coding
+
+# Copy skills to Claude skills directory
+cp -r skills/* ~/.claude/skills/
+
+# Or on Windows
+xcopy /E /I skills\* %USERPROFILE%\.claude\skills\
 ```
 
-**Step 2:** Install the plugin using the `/plugin` command
+### Use Skills
 
-```bash
-/plugin install github:aimonk2025/cp-vibecoding-plugin
+**New Project:**
+```
+You: I want to build a habit tracking app
+
+Claude: [vibe-coding-orchestrator activates → routes to vibe-coding-ideate]
+What's the one-sentence description of what you want to build?
 ```
 
-**Step 3:** Start using the plugin
+**Existing Codebase:**
+```
+You: Generate docs from my Next.js app
 
-Simply say: "I want to build a task management app" or use any of the [trigger phrases](#trigger-phrases) below.
-
-### Method 2: Local Development/Testing
-
-Use this method if you want to modify the plugin or test changes locally.
-
-**Step 1:** Clone the repository
-
-```bash
-git clone https://github.com/aimonk2025/cp-vibecoding-plugin.git
-cd cp-vibecoding-plugin
+Claude: [Auto-detects codebase → vibe-coding-reverse-engineer activates]
+I detected a Next.js project with 487 files...
 ```
 
-**Step 2:** Run Claude Code with the plugin directory flag
+**Resume Session:**
+```
+You: continue
 
-```bash
-claude --plugin-dir ./
+Claude: [Reads progress.txt → activates appropriate skill]
+Resuming DOCUMENT phase. Next: TECH_STACK.md...
 ```
 
-**Step 3:** Start using the plugin
+## How It Works
 
-In Claude Code, say: "I want to build a task management app" or use any of the [trigger phrases](#trigger-phrases) below.
+### Context Handoff (Hybrid Approach)
 
-### Full Installation Guide
-
-See [GETTING_STARTED.md](GETTING_STARTED.md) for complete installation and usage instructions.
-
-### Quick Reference
-
-See [QUICKSTART.md](QUICKSTART.md) for commands, examples, and troubleshooting.
-
-## What You'll Experience
-
-### NEW: Reverse-Engineering Existing Code
-
+**1. progress.txt (Shared State)**
 ```
-You: "Generate docs for my Next.js app"
+VIBE CODING PROGRESS
+====================
+CURRENT STATE:
+phase: DOCUMENT
+step: generating_tech_stack
+next_action: Generate TECH_STACK.md
+active_skill: vibe-coding-document
 
-Claude: [Auto-detects codebase]
-"I detected an existing Next.js project with 487 code files.
+---
+PHASE: IDEATE
+---
+STATUS: complete
+[full conversation transcript...]
 
-DETECTED:
-- Framework: Next.js 14 (App Router)
-- Language: TypeScript
-- Database: PostgreSQL (Prisma)
-- Auth: NextAuth.js
-
-Would you like me to reverse-engineer this and generate complete docs?"
-
-You: "Yes"
-
-Claude: [Deep analysis of 8 areas]
-"Analyzing features, architecture, database, auth, APIs...
-
-FOUND (with 95% confidence):
-- 12 features: Auth, Dashboard, User profiles, Blog posts, etc.
-- 3 database tables: users, posts, comments
-- REST API with 15 endpoints
-- NextAuth.js authentication
-
-Is this correct? Any corrections?"
-
-You: "Looks right"
-
-Claude: [Generates 5 tech docs from code]
-"Generated TECH_STACK.md, BACKEND_STRUCTURE.md, FRONTEND_GUIDELINES.md...
-
-Now I need business context. Let me ask a few questions:
-
-Q: What problem does this blog solve that others don't?"
-
-[10 min Q&A about business context]
-
-Claude: "Complete! Generated all 8 docs. What's next?
-1. Add features (plan new functionality)
-2. Improve code (refactor, add tests)
-3. Done (keep docs)"
-
-You: "Add features"
-
-Claude: "Great! Let's plan new features. What would you like to add?"
+---
+PHASE: DOCUMENT
+---
+STATUS: in_progress
+docs_completed: 2/8
+[document details...]
 ```
 
-### Starting a New Project
+**2. Orchestrator (Workflow Control)**
+- Detects entry points
+- Auto-detects existing codebases
+- Validates phase transitions
+- Routes to appropriate skills
 
-```
-You: "I want to build a habit tracking app"
+**3. Skill References (Knowledge Base)**
+- Each skill has its own `references/` folder with domain-specific knowledge
+- Progressive disclosure - loaded only when needed
+- Cross-skill references when features overlap
 
-Claude: "What's the one-sentence description of what you want to build?"
-
-You: "An app where users track daily habits and see their streaks"
-
-Claude: "What specific problem are people having with existing habit trackers?"
-
-You: "They're too gamified. People want something simple."
-
-Claude: "Which habit trackers have you tried, and what felt too gamified?"
-
-[Natural conversation continues...]
-[progress.txt automatically tracks everything]
-[After ~20-30 minutes of conversation, all requirements are clear]
-
-Claude: "Requirements complete. Here's your summary..."
-[Shows complete summary of everything discussed]
-
-You: "Looks good"
-
-Claude: "Moving to DOCUMENT phase. Generating PRD.md..."
-```
-
-### Resuming Days Later
-
-```
-You: "continue"
-
-Claude: [reads progress.txt]
-"Resuming DOCUMENT phase. Last time we approved PRD.md and APP_FLOW.md.
-Next up: TECH_STACK.md. Based on your requirements for a simple habit tracker,
-I recommend..."
-```
-
-No context lost. Perfect continuity.
-
-## Trigger Phrases
-
-Start a session by saying:
-
-**New Projects:**
-- "I want to build..." / "Build me..."
-- "New project" / "Start a project"
-- "Vibe code this"
-
-**Existing Code (NEW):**
-- "Generate docs from my code"
-- "Document this codebase"
-- "Create PRD from code"
-- "Reverse engineer this"
-- "Analyze my code"
-- Or just activate plugin in directory with code (auto-detects)
-
-**Resume/Continue:**
-- "Continue" / "Resume" / "Where were we?"
-
-**Other Phases:**
-- "Fix this bug" / "Debug this"
-- "Ship it" / "Deploy"
-
-**Manual Commands:**
-- `/vibe-coding:reverse-engineer` - Force reverse-engineering
-- `/vibe-coding:ideate` - Start IDEATE phase
-- `/vibe-coding:document` - Start DOCUMENT phase
-- `/vibe-coding:build` - Start BUILD phase
-- `/vibe-coding:status` - Show current progress
-
-## Plugin Structure
+## Architecture
 
 ```
 cp-vibe-coding/
-├── .claude-plugin/
-│   └── plugin.json             # Plugin manifest
 ├── skills/
-│   └── vibe-coding/
-│       └── SKILL.md            # Main workflow orchestration
-├── hooks/
-│   └── hooks.json              # Auto-save and validation hooks
-├── references/
-│   ├── interrogator/           # IDEATE phase
-│   │   ├── main.md             # Interactive conversation workflow
-│   │   ├── conversation-engine.md  # Adaptive questioning system
-│   │   ├── reverse-engineer-questions.md  # NEW: Business context gap-filling
-│   │   ├── core-concept.md
-│   │   ├── users.md
-│   │   ├── features.md
-│   │   ├── data.md
-│   │   ├── auth.md
-│   │   ├── tech-stack.md
-│   │   ├── business.md
-│   │   ├── edge-cases.md
-│   │   ├── integrations.md
-│   │   ├── design.md
-│   │   ├── brand-colors.md
-│   │   └── summary-template.md
-│   ├── doc-architect/          # DOCUMENT phase
-│   │   ├── main.md
-│   │   ├── codebase-analysis.md     # NEW: Reverse-engineering workflow
-│   │   ├── reverse-engineer/        # NEW: Code analysis tools
-│   │   │   ├── analysis-engine.md   # 8-area deep analysis
-│   │   │   ├── code-detectors.md    # Framework detection
-│   │   │   └── doc-generation-from-code.md  # Code-to-doc templates
-│   │   └── generators/         # 8 doc generators
-│   ├── engineer/               # BUILD phase
-│   │   ├── main.md
-│   │   ├── protection-rules.md
-│   │   ├── communication.md
-│   │   └── ...
-│   ├── debugger/               # DEBUG phase
-│   │   ├── main.md
-│   │   ├── investigation.md
-│   │   └── ...
-│   ├── shipper/                # SHIP phase
-│   │   └── main.md
-│   └── pipeline/               # Workflow management
-│       ├── entry-point-detection.md  # UPDATED: Auto-detection
-│       ├── state-management.md       # UPDATED: REVERSE-ENGINEER state
-│       ├── workflow-state-machine.md # UPDATED: New transitions
-│       ├── progress-templates.md     # UPDATED: Reverse-engineering templates
-│       └── hooks-design.md
-├── commands/                   # Manual commands
-│   ├── reverse-engineer.md     # NEW: /reverse-engineer command
-│   ├── ideate.md
-│   ├── document.md
-│   ├── build.md
-│   └── ...
-├── README.md                   # This file
-├── GETTING_STARTED.md          # Installation & usage
-├── QUICKSTART.md               # Quick reference
-└── IMPROVEMENTS.md             # What we fixed
+│   ├── vibe-coding-orchestrator/    # Entry point & routing
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── pipeline/            # Workflow orchestration
+│   │
+│   ├── vibe-coding-ideate/          # Requirements gathering
+│   │   ├── SKILL.md
+│   │   └── references/              # Interrogation engine
+│   │
+│   ├── vibe-coding-document/        # Doc generation
+│   │   ├── SKILL.md
+│   │   └── references/              # Doc templates & generators
+│   │
+│   ├── vibe-coding-build/           # Implementation
+│   │   ├── SKILL.md
+│   │   └── references/              # Engineering standards
+│   │
+│   ├── vibe-coding-debug/           # Bug fixing
+│   │   ├── SKILL.md
+│   │   └── references/              # Debug protocols
+│   │
+│   ├── vibe-coding-ship/            # Deployment
+│   │   ├── SKILL.md
+│   │   └── references/              # Deployment checklists
+│   │
+│   └── vibe-coding-reverse-engineer/ # Codebase analysis
+│       ├── SKILL.md
+│       └── references/              # Code detectors & analyzers
+│
+└── README.md                         # This file
 ```
 
 ## What Gets Generated
 
-### During Your Conversation (IDEATE Phase)
-**`progress.txt`** - Created automatically in your project root:
+### 8 Canonical Documents
+
+Generated whether you start from scratch OR reverse-engineer existing code:
+
+1. **PRD.md** - Product Requirements Document
+2. **APP_FLOW.md** - User Journeys and Screen Flows
+3. **TECH_STACK.md** - Technologies and Versions
+4. **DESIGN_SYSTEM.md** - Colors, Typography, Components
+5. **BACKEND_STRUCTURE.md** - Database Schema and API Endpoints
+6. **FRONTEND_GUIDELINES.md** - Component Patterns
+7. **IMPLEMENTATION_PLAN.md** - Step-by-Step Build Roadmap
+8. **CLAUDE.md** - Project-Specific AI Assistant Rules
+
+### State Tracking
+
+**progress.txt** - Single source of truth:
 - Full conversation transcript with timestamps
-- All questions and answers preserved
-- Topics covered checklist
-- Key insights extracted
-- Next action for resuming
-
-### Documentation Suite (DOCUMENT Phase)
-
-All 8 canonical docs are generated whether you start from scratch OR reverse-engineer existing code:
-
-| Document | Generated From Scratch | Generated From Code |
-|----------|------------------------|---------------------|
-| `PRD.md` | Interrogation conversation | Code features + business Q&A |
-| `APP_FLOW.md` | User journey questions | Routes/navigation + UX Q&A |
-| `TECH_STACK.md` | Tech preferences Q&A | package.json, dependencies, config files |
-| `DESIGN_SYSTEM.md` | Design preferences + mood | CSS/Tailwind analysis + rationale Q&A |
-| `BACKEND_STRUCTURE.md` | Data model questions | Schema, models, API routes |
-| `FRONTEND_GUIDELINES.md` | Component preferences | Component patterns, file structure |
-| `IMPLEMENTATION_PLAN.md` | Build sequence plan | Future features roadmap |
-| `CLAUDE.md` | Project-specific rules | Project-specific rules |
-
-### During BUILD Phase
-- Feature implementation tracking in `progress.txt`
+- Phase status and transitions
 - Files changed log
-- Test results
-- Lessons learned in `tasks/lessons.md`
+- Lessons learned
 
-## Supported Frameworks for Reverse-Engineering
+## Entry Points
 
-The reverse-engineering system detects and analyzes:
+Start from anywhere based on what you have:
 
-**Frontend:**
-- Next.js (12, 13, 14 - both Pages and App Router)
-- React (Create React App, Vite)
-- Vue 3
-- Nuxt 3
-- Svelte / SvelteKit
+| You Have | Entry Point | Time |
+|----------|-------------|------|
+| **Just an idea** | vibe-coding-ideate (full) | ~30-45 min |
+| **Existing codebase** | vibe-coding-reverse-engineer | ~20-30 min |
+| **Existing PRD** | vibe-coding-document (import) | ~15-25 min |
+| **Want fast mode** | vibe-coding-ideate (fast-track) | ~10-15 min |
 
-**Backend:**
-- Express.js
-- NestJS
-- Django
-- FastAPI
-- Ruby on Rails
-- Laravel
+## Supported Frameworks
 
-**Databases:**
-- Prisma
-- TypeORM
-- Mongoose
-- Sequelize
-- Django ORM
-- ActiveRecord
+**Reverse-Engineering Auto-Detection:**
 
-**More frameworks added regularly!**
+- **Frontend:** Next.js, React, Vue, Nuxt, Svelte, SvelteKit
+- **Backend:** Express, NestJS, Django, FastAPI, Rails, Laravel
+- **Databases:** Prisma, TypeORM, Mongoose, Sequelize, Django ORM, ActiveRecord
+
+## Installation Options
+
+### Option 1: Local Installation (Recommended)
+
+```bash
+# Clone repository
+git clone https://github.com/aimonk2025/cp-vibe-coding.git
+cd cp-vibe-coding
+
+# Copy all skills
+cp -r skills/* ~/.claude/skills/
+```
+
+### Option 2: Individual Skills
+
+Install only the skills you need:
+
+```bash
+# Just the orchestrator and ideate
+cp -r skills/vibe-coding-orchestrator ~/.claude/skills/
+cp -r skills/vibe-coding-ideate ~/.claude/skills/
+```
+
+### Option 3: Claude.ai Upload
+
+1. Zip each skill folder individually
+2. Upload via Settings > Capabilities > Skills
+3. Enable the skills you want to use
+
+### Option 4: Organization Deployment
+
+Admins can deploy workspace-wide for automatic updates.
 
 ## Requirements
 
-- [Claude Code](https://code.claude.com) installed and authenticated
-- Claude Code version 1.0.33 or later
-- Any operating system (Windows, macOS, Linux)
-
-## Documentation
-
-- **[GETTING_STARTED.md](GETTING_STARTED.md)** - Installation and detailed usage guide
-- **[QUICKSTART.md](QUICKSTART.md)** - Quick reference and examples
-- **[IMPROVEMENTS.md](IMPROVEMENTS.md)** - What we fixed and why
+- **Claude.ai** account OR **Claude Code** v1.0.33+
+- Any OS (Windows, macOS, Linux)
+- For reverse-engineering: Dependency file in project (package.json, requirements.txt, etc.)
 
 ## Troubleshooting
 
-### Plugin Not Recognized
-
-If you see "Unknown skill: vibe-coding" or "Unknown slash command":
+### Skills Not Activating
 
 1. **Verify installation:**
    ```bash
-   ls ~/.claude/plugins/marketplaces/cp-vibe-coding
-   ```
-   (On Windows: `dir C:\Users\<username>\.claude\plugins\marketplaces\cp-vibe-coding`)
-
-2. **Reload Claude Code:**
-   - Restart your Claude Code session
-   - OR run: `/plugin reload vibe-coding`
-
-3. **Check plugin list:**
-   ```bash
-   /plugin list
-   ```
-   You should see "vibe-coding" in the list.
-
-4. **Manual activation (if needed):**
-   ```bash
-   /plugin activate vibe-coding
+   ls ~/.claude/skills/vibe-coding-orchestrator
    ```
 
-### Trigger Phrases Not Working
+2. **Try explicit phrases:**
+   - "build me an app"
+   - "let's ideate"
+   - "generate docs from my code"
 
-If typing "generate docs for my app" doesn't work:
+3. **Check Claude.ai:** Settings > Capabilities > Skills
 
-**Use these exact phrases:**
-- "generate docs from my code"
-- "analyze my code and create documentation"
-- "reverse engineer this codebase"
-- "document this project"
+### Context Not Transferring
 
-**Or use the direct command:**
+1. Check `progress.txt` exists in project directory
+2. Verify `CURRENT STATE` section has correct `active_skill`
+3. Say: "continue where we left off"
+
+### Auto-Detection Not Working
+
+Requires:
+- Dependency file (package.json, requirements.txt, etc.)
+- At least 10 code files
+- Skills activated in project directory
+
+## Examples
+
+### Example 1: New App from Scratch
+
 ```
-/reverse-engineer
+You: Build me a task management app
+
+Claude: [orchestrator → ideate]
+What's the one-sentence description?
+
+You: An app for teams to track tasks with Kanban boards
+
+Claude: What problem do existing tools have?
+
+[30 min conversation → 8 docs generated → ready to build]
 ```
 
-### Commands Available
+### Example 2: Document Existing Code
 
-All slash commands (work regardless of trigger phrases):
-- `/ideate` - Start requirements gathering
-- `/document` - Create documentation
-- `/build` - Implement features
-- `/reverse-engineer` - Analyze existing code
-- `/status` - Check progress
-- `/show` - Display generated docs
+```
+You: Document this Next.js project
+
+Claude: [orchestrator detects code → reverse-engineer]
+
+Detected: Next.js 14, TypeScript, 487 files
+- Framework: Next.js (App Router)
+- Database: PostgreSQL (Prisma)
+- Auth: NextAuth.js
+
+Shall I reverse-engineer and generate docs?
+
+[Analysis → tech docs → business Q&A → 8 complete docs]
+```
+
+### Example 3: Resume After Interruption
+
+```
+You: continue
+
+Claude: [orchestrator reads progress.txt → document]
+
+Resuming DOCUMENT phase.
+Completed: PRD.md, APP_FLOW.md
+Next: Generating TECH_STACK.md...
+```
+
+## Contributing
+
+Contributions welcome!
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test with all 7 skills
+5. Submit a pull request
+
+See [issues](https://github.com/aimonk2025/cp-vibe-coding/issues) for areas needing help.
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/aimonk2025/cp-vibecoding-plugin/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/aimonk2025/cp-vibecoding-plugin/discussions)
+- **Issues:** [GitHub Issues](https://github.com/aimonk2025/cp-vibe-coding/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/aimonk2025/cp-vibe-coding/discussions)
 
 ## License
 
 MIT
 
-## Contributing
+## Credits
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-See issues for areas that need help.
+Built following [Agent Skills best practices](https://docs.anthropic.com/claude/docs/skills) and the Claude Agent SDK patterns.
